@@ -1,8 +1,7 @@
 HELP.md
-target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
+!**/src/main/
+!**/src/test/
+!
 
 ### STS ###
 .apt_generated
@@ -14,7 +13,7 @@ target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-.idea
+.idea/libraries/
 *.iws
 *.iml
 *.ipr
