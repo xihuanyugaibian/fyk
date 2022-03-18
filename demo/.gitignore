@@ -1,9 +1,15 @@
 HELP.md
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-
+#java
+*.class
+#package file
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+#maven ignore
+build/
 ### STS ###
 .apt_generated
 .classpath
@@ -15,9 +21,16 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+/idea/
 *.iws
 *.iml
 *.ipr
+#temp file
+*.log
+*.cache
+*.diff
+*.patch
+*.tmp
 
 ### NetBeans ###
 /nbproject/private/
