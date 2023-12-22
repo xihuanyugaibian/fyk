@@ -1448,9 +1448,7 @@ public void testBeanScope(){
 }
 ```
 
-
-
-#### 3.2.12、实验十一：bean生命周期
+#### 3.2.12、实验十一：<font color='red'>bean生命周期</font>
 
 **①具体的生命周期过程**
 
@@ -1939,7 +1937,7 @@ public void testAutoWireByXML(){
 
 从 Java 5 开始，Java 增加了对注解（Annotation）的支持，它是代码中的一种特殊标记，可以在编译、类加载和运行时被读取，执行相应的处理。开发人员可以通过注解在不改变原有代码和逻辑的情况下，在源代码中嵌入补充信息。
 
-Spring 从 2.5 版本开始提供了对注解技术的全面支持，我们可以使用注解来实现自动装配，简化 Spring 的 XML 配置。
+<u color='red'>Spring 从 2.5 版本开始提供了对注解技术的全面支持</u>，我们可以使用注解来实现自动装配，简化 Spring 的 XML 配置。
 
 Spring 通过注解实现自动装配的步骤如下：
 
