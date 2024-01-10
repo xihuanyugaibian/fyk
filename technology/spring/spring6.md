@@ -1574,7 +1574,7 @@ public void testLife(){
 
 **⑤bean的后置处理器**
 
-bean的后置处理器会在生命周期的初始化前后添加额外的操作，需要实现BeanPostProcessor接口，且配置到IOC容器中，需要注意的是，bean后置处理器不是单独针对某一个bean生效，而是针对IOC容器中所有bean都会执行
+bean的后置处理器会在生命周期的初始化(配置bean时指定的初始化方法)前后添加额外的操作，需要实现BeanPostProcessor接口，且配置到IOC容器中，需要注意的是，bean后置处理器不是单独针对某一个bean生效，而是针对IOC容器中所有bean都会执行
 
 创建bean的后置处理器：
 
@@ -2411,7 +2411,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
+    // @Autowired 只有一个有参构造方法时可以省略@Autowired注解
     private UserDao userDao;
 
     public UserServiceImpl(UserDao userDao) {
@@ -2484,11 +2484,11 @@ public class UserServiceImpl implements UserService {
 ```
 
 **总结**
-
+<u>
 - @Autowired注解可以出现在：属性上、构造方法上、构造方法的参数上、setter方法上。
-- 当带参数的构造方法只有一个，@Autowired注解可以省略。（）
+- 当带参数的构造方法只有一个，@Autowired注解可以省略。
 - @Autowired注解默认根据类型注入。如果要根据名称注入的话，需要配合@Qualifier注解一起使用。
-
+</u>
 
 
 #### 3.3.5、实验二：@Resource注入
