@@ -3891,7 +3891,6 @@ public class LogAspect {
 ```
 
 在Spring的配置文件中配置：
-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
@@ -3914,6 +3913,18 @@ public class LogAspect {
 
     <aop:aspectj-autoproxy />
 </beans>
+```  
+基于注解的配置
+```java
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+
+@Configuration  // 该类是一个配置类
+@ComponentScan("com.fyk.learn") // 等价xml中的<context:component-scan base-package="com.atguigu.aop.annotation"/>
+@EnableAspectJAutoProxy // 等价xml中的 <aop:aspectj-autoproxy />
+public class SpringBoot {
+}
 ```
 
 执行测试：
@@ -3925,6 +3936,7 @@ public class CalculatorTest {
 
     @Test
     public void testAdd(){
+        // ApplicationContext ac = new AnnotationConfigApplicationContext(SpringBoot.class);
         ApplicationContext ac = new ClassPathXmlApplicationContext("beans.xml");
         Calculator calculator = ac.getBean( Calculator.class);
         int add = calculator.add(1, 1);
@@ -4107,6 +4119,18 @@ public Object aroundMethod(ProceedingJoinPoint joinPoint){
 
 - @Order(较小的数)：优先级高
 - @Order(较大的数)：优先级低
+```java
+// 环绕通知在外层
+public void function() {
+    // 前置通知(方法内,刚进方法的时候)
+
+    System.out.println("");// 方法执行体
+
+    // 返回通知(方法内,出方法前)
+}
+// 后置通知(方法外,刚出方法)
+// 环绕通知在外层
+```
 
 ![images](images/spring6/img026.png)
 
@@ -4244,7 +4268,7 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 //方式一
 //@ExtendWith(SpringExtension.class)
 //@ContextConfiguration("classpath:beans.xml")
-//方式二
+//方式二 该注解就是方式一的组合注解
 @SpringJUnitConfig(locations = "classpath:beans.xml")
 public class SpringJUnit5Test {
 
@@ -4286,7 +4310,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("classpath:beans.xml")
+@ContextConfiguration("classpath:beans.xml")//用于启动spring容器
 public class SpringJUnit4Test {
 
     @Autowired
@@ -4384,6 +4408,34 @@ beans.xml
 
 </beans>
 ```
+使用注解的方式
+```java
+import com.alibaba.druid.pool.DruidDataSource;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import javax.sql.DataSource;
+
+@Configuration  // 该类是一个配置类
+public class SpringBoot {
+    @Bean
+    public DruidDataSource druidDataSource() {
+        DruidDataSource druidDataSource = new DruidDataSource();
+        druidDataSource.setUrl("jdbc:mysql://localhost:3306/sys");
+        druidDataSource.setUsername("root");
+        druidDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        return druidDataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        jdbcTemplate.setDataSource(dataSource);
+        return jdbcTemplate;
+    }
+}
+```
 
 **⑤准备数据库与测试表**
 
@@ -4416,6 +4468,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
+//@SpringJUnitConfig(SpringBoot.class)
 @SpringJUnitConfig(locations = "classpath:beans.xml")
 public class JDBCTemplateTest {
 
@@ -4912,7 +4965,7 @@ org.springframework.transaction.**TransactionTimedOutException**: Transaction ti
 - noRollbackFor属性：需要设置一个Class类型的对象
 - rollbackFor属性：需要设置一个字符串类型的全类名
 
-**②使用方式**
+**②使用方式** 
 
 ```java
 @Transactional(noRollbackFor = ArithmeticException.class)
@@ -5246,20 +5299,20 @@ public interface InputStreamSource {
 
 **其中一些重要的方法：**
 
-getInputStream(): 找到并打开资源，返回一个InputStream以从资源中读取。预计每次调用都会返回一个新的InputStream()，调用者有责任关闭每个流
-exists(): 返回一个布尔值，表明某个资源是否以物理形式存在
-isOpen: 返回一个布尔值，指示此资源是否具有开放流的句柄。如果为true，InputStream就不能够多次读取，只能够读取一次并且及时关闭以避免内存泄漏。对于所有常规资源实现，返回false，但是InputStreamResource除外。
-getDescription(): 返回资源的描述，用来输出错误的日志。这通常是完全限定的文件名或资源的实际URL。
+getInputStream(): 找到并打开资源，返回一个InputStream以从资源中读取。预计每次调用都会返回一个新的InputStream()，调用者有责任关闭每个流  
+exists(): 返回一个布尔值，表明某个资源是否以物理形式存在  
+isOpen: 返回一个布尔值，指示此资源是否具有开放流的句柄。如果为true，InputStream就不能够多次读取，只能够读取一次并且及时关闭以避免内存泄漏。对于所有常规资源实现，返回false，但是InputStreamResource除外。  
+getDescription(): 返回资源的描述，用来输出错误的日志。这通常是完全限定的文件名或资源的实际URL。  
 
 **其他方法：**
 
-isReadable(): 表明资源的目录读取是否通过getInputStream()进行读取。
-isFile(): 表明这个资源是否代表了一个文件系统的文件。
-getURL(): 返回一个URL句柄，如果资源不能够被解析为URL，将抛出IOException
-getURI(): 返回一个资源的URI句柄
-getFile(): 返回某个文件，如果资源不能够被解析称为绝对路径，将会抛出FileNotFoundException
-lastModified(): 资源最后一次修改的时间戳
-createRelative(): 创建此资源的相关资源
+isReadable(): 表明资源的目录读取是否通过getInputStream()进行读取。  
+isFile(): 表明这个资源是否代表了一个文件系统的文件。  
+getURL(): 返回一个URL句柄，如果资源不能够被解析为URL，将抛出IOException  
+getURI(): 返回一个资源的URI句柄  
+getFile(): 返回某个文件，如果资源不能够被解析称为绝对路径，将会抛出FileNotFoundException  
+lastModified(): 资源最后一次修改的时间戳  
+createRelative(): 创建此资源的相关资源  
 getFilename(): 资源的文件名是什么 例如：最后一部分的文件名 myfile.txt
 
 
@@ -5390,7 +5443,7 @@ import java.io.InputStream;
 public class FileSystemResourceDemo {
 
     public static void loadAndReadUrlResource(String path) throws Exception{
-        //相对路径
+        //相对路径 项目的跟路径,不是classpath的类路径
         FileSystemResource resource = new FileSystemResource("atguigu.txt");
         //绝对路径
         //FileSystemResource resource = new FileSystemResource("C:\\atguigu.txt");
@@ -5450,7 +5503,7 @@ Spring 提供如下两个标志性接口：
 
 **（1）ResourceLoader ：** 该接口实现类的实例可以获得一个Resource实例。
 
-**（2） ResourceLoaderAware ：** 该接口实现类的实例将获得一个ResourceLoader的引用。
+**（2）ResourceLoaderAware ：** 该接口实现类的实例将获得一个ResourceLoader的引用。
 
 在ResourceLoader接口里有如下方法：
 
@@ -5775,7 +5828,7 @@ ApplicationContext ctx = new ClassPathXmlApplicationContext("classpath*:bean*.xm
 ### 9.1、i18n概述
 
 国际化也称作i18n，其来源是英文单词 internationalization的首末字符i和n，18为中间的字符数。由于软件发行可能面向多个国家，对于不同国家的用户，软件显示不同语言的过程就是国际化。通常来讲，软件中的国际化是通过配置文件来实现的，假设要支撑两种语言，那么就需要两个版本的配置文件。
-
+ 
 
 
 ### 9.2、Java国际化
