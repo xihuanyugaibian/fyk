@@ -778,7 +778,7 @@ REST 风格提倡 URL 地址使用统一的风格设计，从前到后各个单�
 
 ### 3、HiddenHttpMethodFilter
 
-由于浏览器只支持发送get和post方式的请求，那么该如何发送put和delete请求呢？
+由于部分浏览器只支持发送get和post方式的请求，这些浏览器该如何发送put和delete请求呢？
 
 SpringMVC 提供了 **HiddenHttpMethodFilter** 帮助我们**将 POST 请求转换为 DELETE 或 PUT 请求**
 
