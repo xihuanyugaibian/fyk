@@ -581,7 +581,7 @@ public String testServletAPI(HttpServletRequest request){
 }
 ```
 
-### 2、使用ModelAndView向request域对象共享数据
+#### 1.1、使用ModelAndView向request域对象共享数据
 
 ```java
 @RequestMapping("/testModelAndView")
@@ -600,7 +600,7 @@ public ModelAndView testModelAndView(){
 }
 ```
 
-### 3、使用Model向request域对象共享数据
+#### 1.2、使用Model向request域对象共享数据
 
 ```java
 @RequestMapping("/testModel")
@@ -610,7 +610,7 @@ public String testModel(Model model){
 }
 ```
 
-### 4、使用map向request域对象共享数据
+#### 1.3、使用map向request域对象共享数据
 
 ```java
 @RequestMapping("/testMap")
@@ -620,7 +620,7 @@ public String testMap(Map<String, Object> map){
 }
 ```
 
-### 5、使用ModelMap向request域对象共享数据
+#### 1.4、使用ModelMap向request域对象共享数据
 
 ```java
 @RequestMapping("/testModelMap")
@@ -630,7 +630,7 @@ public String testModelMap(ModelMap modelMap){
 }
 ```
 
-### 6、Model、ModelMap、Map的关系
+#### 1.5 Model、ModelMap、Map的关系
 
 Model、ModelMap、Map类型的参数其实本质上都是 BindingAwareModelMap 类型的
 
@@ -641,7 +641,7 @@ public class ExtendedModelMap extends ModelMap implements Model {}
 public class BindingAwareModelMap extends ExtendedModelMap {}
 ```
 
-### 7、向session域共享数据
+### 2、向session域共享数据
 
 ```java
 @RequestMapping("/testSession")
@@ -651,7 +651,7 @@ public String testSession(HttpSession session){
 }
 ```
 
-### 8、向application域共享数据
+### 3、向application域共享数据
 
 ```java
 @RequestMapping("/testApplication")
