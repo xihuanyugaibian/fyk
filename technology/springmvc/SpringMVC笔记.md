@@ -1224,7 +1224,7 @@ requestBody:username=admin&password=123456
 
 ### 2、RequestEntity
 
-RequestEntity封装请求报文的一种类型，需要在控制器方法的形参中设置该类型的形参，当前请求的请求报文就会赋值给该形参，可以通过getHeaders()获取请求头信息，通过getBody()获取请求体信息
+RequestEntity封装请求报文的一种类型，需要在控制器方法的形参中设置该类型的形参，当前请求的请求报文就会赋值给该形参，可以通过getHeaders()获取请求头信息，通过getBody()获取请求体信息.类似于HttpServletRequest直接作为参数就可以被赋值.
 
 ```java
 @RequestMapping("/testRequestEntity")
