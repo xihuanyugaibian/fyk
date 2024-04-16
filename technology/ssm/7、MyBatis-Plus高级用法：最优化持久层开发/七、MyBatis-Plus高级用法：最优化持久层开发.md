@@ -80,8 +80,9 @@ mybatis-plus总结：
 1.  准备数据库脚本
 
     现有一张 `User` 表，其表结构如下：
+    
     | id | name   | age | email                                                                |
-    | -- | ------ | --- | -------------------------------------------------------------------- |
+    |----|--------|-----|----------------------------------------------------------------------|
     | 1  | Jone   | 18  | [test1@baomidou.com](mailto:test1@baomidou.com "test1@baomidou.com") |
     | 2  | Jack   | 20  | [test2@baomidou.com](mailto:test2@baomidou.com "test2@baomidou.com") |
     | 3  | Tom    | 28  | [test3@baomidou.com](mailto:test3@baomidou.com "test3@baomidou.com") |

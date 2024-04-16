@@ -1794,29 +1794,32 @@ public class UserController {
 1.  **校验概述**
 
     JSR 303 是 Java 为 Bean 数据合法性校验提供的标准框架，它已经包含在 JavaEE 6.0 标准中。JSR 303 通过在 Bean 属性上标注类似于 @NotNull、@Max 等标准的注解指定校验规则，并通过标准的验证接口对Bean进行验证。
-    | 注解                                                                                           | 规则                        |
-    | -------------------------------------------------------------------------------------------- | ------------------------- |
-    | @Null                                                                                        | 标注值必须为 null               |
-    | @NotNull                                                                                     | 标注值不可为 null               |
-    | @AssertTrue                                                                                  | 标注值必须为 true               |
-    | @AssertFalse                                                                                 | 标注值必须为 false              |
-    | @Min(value)                                                                                  | 标注值必须大于或等于 value          |
-    | @Max(value)                                                                                  | 标注值必须小于或等于 value          |
-    | @DecimalMin(value)                                                                           | 标注值必须大于或等于 value          |
-    | @DecimalMax(value)                                                                           | 标注值必须小于或等于 value          |
-    | @Size(max,min)                                                                               | 标注值大小必须在 max 和 min 限定的范围内 |
-    | @Digits(integer,fratction)                                                                   | 标注值值必须是一个数字，且必须在可接受的范围内   |
-    | @Past                                                                                        | 标注值只能用于日期型，且必须是过去的日期      |
-    | @Future                                                                                      | 标注值只能用于日期型，且必须是将来的日期      |
-    | @Pattern(value)                                                                              | 标注值必须符合指定的正则表达式           |
-    | JSR 303 只是一套标准，需要提供其实现才可以使用。Hibernate Validator 是 JSR 303 的一个参考实现，除支持所有标准的校验注解外，它还支持以下的扩展注解： |                           |
-    | 注解                                                                                                                                                                                                                                                                                                                                                | 规则                   |
-    | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-    | @Email                                                                                                                                                                                                                                                                                                                                            | 标注值必须是格式正确的 Email 地址 |
-    | @Length                                                                                                                                                                                                                                                                                                                                           | 标注值字符串大小必须在指定的范围内    |
-    | @NotEmpty                                                                                                                                                                                                                                                                                                                                         | 标注值字符串不能是空字符串        |
-    | @Range                                                                                                                                                                                                                                                                                                                                            | 标注值必须在指定的范围内         |
-    | Spring 4.0 版本已经拥有自己独立的数据校验框架，同时支持 JSR 303 标准的校验框架。Spring 在进行数据绑定时，可同时调用校验框架完成数据校验工作。在SpringMVC 中，可直接通过注解驱动 @EnableWebMvc 的方式进行数据校验。Spring 的 LocalValidatorFactoryBean 既实现了 Spring 的 Validator 接口，也实现了 JSR 303 的 Validator 接口。只要在Spring容器中定义了一个LocalValidatorFactoryBean，即可将其注入到需要数据校验的 Bean中。Spring本身并没有提供JSR 303的实现，所以必须将JSR 303的实现者的jar包放到类路径下。 |                      |
+    
+    | 注解                         | 规则                        |
+    |----------------------------|---------------------------|
+    | @Null                      | 标注值必须为 null               |
+    | @NotNull                   | 标注值不可为 null               |
+    | @AssertTrue                | 标注值必须为 true               |
+    | @AssertFalse               | 标注值必须为 false              |
+    | @Min(value)                | 标注值必须大于或等于 value          |
+    | @Max(value)                | 标注值必须小于或等于 value          |
+    | @DecimalMin(value)         | 标注值必须大于或等于 value          |
+    | @DecimalMax(value)         | 标注值必须小于或等于 value          |
+    | @Size(max,min)             | 标注值大小必须在 max 和 min 限定的范围内 |
+    | @Digits(integer,fratction) | 标注值值必须是一个数字，且必须在可接受的范围内   |
+    | @Past                      | 标注值只能用于日期型，且必须是过去的日期      |
+    | @Future                    | 标注值只能用于日期型，且必须是将来的日期      |
+    | @Pattern(value)            | 标注值必须符合指定的正则表达式           |
+    
+    JSR 303 只是一套标准，需要提供其实现才可以使用。Hibernate Validator 是 JSR 303 的一个参考实现，除支持所有标准的校验注解外，它还支持以下的扩展注解：   
+    
+    | 注解        | 规则                   |
+    |-----------|----------------------|
+    | @Email    | 标注值必须是格式正确的 Email 地址 |
+    | @Length   | 标注值字符串大小必须在指定的范围内    |
+    | @NotEmpty | 标注值字符串不能是空字符串        |
+    | @Range    | 标注值必须在指定的范围内         |
+    Spring 4.0 版本已经拥有自己独立的数据校验框架，同时支持 JSR 303 标准的校验框架。Spring 在进行数据绑定时，可同时调用校验框架完成数据校验工作。在SpringMVC 中，可直接通过注解驱动 @EnableWebMvc 的方式进行数据校验。Spring 的 LocalValidatorFactoryBean 既实现了 Spring 的 Validator 接口，也实现了 JSR 303 的 Validator 接口。只要在Spring容器中定义了一个LocalValidatorFactoryBean，即可将其注入到需要数据校验的 Bean中。Spring本身并没有提供JSR 303的实现，所以必须将JSR 303的实现者的jar包放到类路径下。
     配置 @EnableWebMvc后，SpringMVC 会默认装配好一个 LocalValidatorFactoryBean，通过在处理方法的入参上标注 @Validated 注解即可让 SpringMVC 在完成数据绑定后执行数据校验的工作。
 2.  **操作演示**
     -   导入依赖
